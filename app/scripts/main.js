@@ -209,3 +209,16 @@ $(document).ready(function(){
     };
 
 })
+
+function testCall() {
+    $.ajax({
+        url: "https://api.typeform.com/forms/fepjH3/responses?query=foriaa@gmail.com",
+        method: "GET",
+        headers: {
+            "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'
+        },
+        success: function(response) {
+            console.log(response);
+        }
+    });
+}

@@ -3,4 +3,37 @@
 
 // BOOTSTRAP with all components.
 // We will check at the end of project which components are useless and remove them
-@import 'bootstrap/bootstrap';
+//@import 'bootstrap/bootstrap';
+
+#charts {
+    width: 100%;
+    height: 650px;
+    position: relative;
+}
+
+#charts:before {
+  content: " ";
+  display: block;
+  background: url(../images/labels.svg) center no-repeat;
+  background-size: contain;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.wrapper {
+  width: 68%;
+  height: 68%;
+  position: absolute;
+  top: 54%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+     -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+       -o-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+#main-chart {
+    border-radius: 50%;
+}

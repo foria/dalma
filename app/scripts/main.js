@@ -1,214 +1,177 @@
-$(document).ready(function(){
-    'use strict';
 
-    window.chartColors = {
-        red: 'rgb(255, 99, 132)',
-        orange: 'rgb(255, 159, 64)',
-        yellow: 'rgb(255, 205, 86)',
-        green: 'rgb(75, 192, 192)',
-        blue: 'rgb(54, 162, 235)',
-        purple: 'rgb(153, 102, 255)',
-        grey: 'rgb(201, 203, 207)'
-    };
+  var labels = [
+      'Aportación de valor',
+      'Salud y bienestar',
+      'Liderazgo',
+      'ADN',
+      'Atracción de talento',
+      'Modelo de transformación',
+      'Capital humano',
+      'Governancia',
+      'Eficiencia y agilidad'
+    ];
 
-    (function(global) {
-        var Months = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December'
-        ];
+  var data = [
+      100,
+      30,
+      80,
+      50,
+      10,
+      80,
+      60,
+      40,
+      20
+    ]
 
-        var COLORS = [
-            '#4dc9f6',
-            '#f67019',
-            '#f53794',
-            '#537bc4',
-            '#acc236',
-            '#166a8f',
-            '#00a950',
-            '#58595b',
-            '#8549ba'
-        ];
+  var colors = []
 
-        var Samples = global.Samples || (global.Samples = {});
-        var Color = global.Color;
+  for( i=0; i<data.length; i++){
+    if( data[i] > 79 ){
+      colors[i] = 'rgba(132,191,136, 0.3)';
+    } else if( data[i] > 39 ){
+      colors[i] = '#fff1af';
+    } else {
+      colors[i] = '#f8aa8f';
+    }
+  }
 
-        Samples.utils = {
-            // Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
-            srand: function(seed) {
-                this._seed = seed;
-            },
+  Chart.helpers.merge(Chart.defaults.global, {
+    maintainAspectRatio: false,
+    //tooltips: false,
+    // layout: {
+    //  padding: 16
+    // },
+    // elements: {
+    //  arc: {
+   //            borderWidth: 10
+    //  }
+    // },
+    plugins: {
+      legend: false,
+      //title: false
+    }
+  });
 
-            rand: function(min, max) {
-                var seed = this._seed;
-                min = min === undefined ? 0 : min;
-                max = max === undefined ? 1 : max;
-                this._seed = (seed * 9301 + 49297) % 233280;
-                return min + (this._seed / 233280) * (max - min);
-            },
-
-            numbers: function(config) {
-                var cfg = config || {};
-                var min = cfg.min || 0;
-                var max = cfg.max || 1;
-                var from = cfg.from || [];
-                var count = cfg.count || 8;
-                var decimals = cfg.decimals || 8;
-                var continuity = cfg.continuity || 1;
-                var dfactor = Math.pow(10, decimals) || 0;
-                var data = [];
-                var i, value;
-
-                for (i = 0; i < count; ++i) {
-                    value = (from[i] || 0) + this.rand(min, max);
-                    if (this.rand() <= continuity) {
-                        data.push(Math.round(dfactor * value) / dfactor);
-                    } else {
-                        data.push(null);
-                    }
-                }
-
-                return data;
-            },
-
-            labels: function(config) {
-                var cfg = config || {};
-                var min = cfg.min || 0;
-                var max = cfg.max || 100;
-                var count = cfg.count || 8;
-                var step = (max - min) / count;
-                var decimals = cfg.decimals || 8;
-                var dfactor = Math.pow(10, decimals) || 0;
-                var prefix = cfg.prefix || '';
-                var values = [];
-                var i;
-
-                for (i = min; i < max; i += step) {
-                    values.push(prefix + Math.round(dfactor * i) / dfactor);
-                }
-
-                return values;
-            },
-
-            months: function(config) {
-                var cfg = config || {};
-                var count = cfg.count || 12;
-                var section = cfg.section;
-                var values = [];
-                var i, value;
-
-                for (i = 0; i < count; ++i) {
-                    value = Months[Math.ceil(i) % 12];
-                    values.push(value.substring(0, section));
-                }
-
-                return values;
-            },
-
-            color: function(index) {
-                return COLORS[index % COLORS.length];
-            },
-
-            transparentize: function(color, opacity) {
-                var alpha = opacity === undefined ? 0.5 : 1 - opacity;
-                return Color(color).alpha(alpha).rgbString();
-            }
-        };
-
-        // DEPRECATED
-        window.randomScalingFactor = function() {
-            return Math.round(Samples.utils.rand(-100, 100));
-        };
-
-        // INITIALIZATION
-
-        Samples.utils.srand(Date.now());
-
-    }(this));
+  // Chart.plugins.register({
+  //   beforeDraw: function(chartInstance) {
+  //     var ctx = chartInstance.chart.ctx;
+//        var centerX = chartInstance.chart.width / 2;
+  //     var centerY = chartInstance.chart.height / 2;
+  //     ctx.beginPath();
+//      ctx.arc(centerX, centerY, centerX, 0, Math.PI * 2, true); // Outer circle
+  //     ctx.fillStyle = "red";
+  //  ctx.fill();
+  //   }
+  // });
 
 
-    var randomScalingFactor = function() {
-        return Math.round(Math.random() * 100);
-    };
-
-    var chartColors = window.chartColors;
-    var color = Chart.helpers.color;
-    var config = {
-        data: {
+var chart = new Chart('main-chart', {
+    type: 'polarArea',
+    data: {
+          labels: labels,
             datasets: [{
-                data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                ],
-                backgroundColor: [
-                    color(chartColors.red).alpha(0.5).rgbString(),
-                    color(chartColors.orange).alpha(0.5).rgbString(),
-                    color(chartColors.yellow).alpha(0.5).rgbString(),
-                    color(chartColors.green).alpha(0.5).rgbString(),
-                    color(chartColors.blue).alpha(0.5).rgbString(),
-                    color(chartColors.orange).alpha(0.5).rgbString(),
-                    color(chartColors.yellow).alpha(0.5).rgbString(),
-                    color(chartColors.green).alpha(0.5).rgbString(),
-                    color(chartColors.blue).alpha(0.5).rgbString(),
-                ],
-                label: 'My dataset' // for legend
-            }],
-            labels: [
-                'Red',
-                'Orange',
-                'Yellow',
-                'Green',
-                'Blue',
-                'Orange',
-                'Yellow',
-                'Green',
-                'Blue'
-            ]
+                data: data,
+                backgroundColor: colors,
+                borderWidth: 4,
+              hoverBorderColor: 'white',
+              hoverBorderWidth: 4
+            }]
         },
-        options: {
-            responsive: true,
-            legend: {
-                position: 'left',
+    options: {
+          scale: {
+            // angleLines:{
+            //     display: true,
+            //     color: 'white',
+            //     lineWidth: 30
+            // },
+            pointLabels: {
+              //display: true,
+              // callback: function(pointLabel, index, labels) {
+             //        console.log(pointLabel + " " + index + " " + labels);
+                //}
             },
-            title: {
-                display: true,
-                text: 'M3Q'
+            gridLines:{
+                lineWidth: 15,
+                color: '#fcfcfc'
             },
-            scale: {
-                ticks: {
-                    beginAtZero: true
-                },
-                reverse: false
+        // tooltips: {
+        //  mode: 'index',
+        //  callbacks: {
+        //    // Use the footer callback to display the sum of the items showing in the tooltip
+        //    footer: function(tooltipItems, data) {
+        //      var sum = 0;
+        //      tooltipItems.forEach(function(tooltipItem) {
+        //        sum += data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+        //      });
+        //      return 'Sum: ' + sum;
+        //    },
+        //  },
+        //  footerFontStyle: 'bold'
+        // },
+            tooltips: {
+                custom: function(tooltip) {
+                    // tooltip will be false if tooltip is not visible or should be hidden
+                    if (!tooltip) {
+                        return;
+                    }
+                    tooltip.body = ['TEST']
+                }
             },
-            animation: {
-                animateRotate: true,
-                animateScale: true
-            }
-        }
-    };
+              ticks: {
+                  display: false
+              }
+          },
+      startAngle: 2.510*Math.PI,
+      // plugins: {
+      //  datalabels: {
+      //    anchor: 'end',
+      //    align: 'end',
+      //    //offset: 150,
+      //    backgroundColor: function(context) {
+      //      return context.dataset.backgroundColor;
+      //    },
+      //    borderColor: 'white',
+      //    //borderRadius: 25,
+      //    borderWidth: 2,
+      //    color: 'white',
+      //    font: {
+      //      weight: 'bold'
+      //    },
+      //    formatter: function(value, context) {
+    //                         return context.chart.data.labels[context.dataIndex];
+    //                     }
+      //  }
+      // }
+      //     animation: {
+      //         duration: 1,
+      //         onComplete: function() {
+          // var chartInstance = this.chart,
+          // ctx = chartInstance.ctx;
 
-    window.onload = function() {
-        var ctx = document.getElementById('chart-area');
-        window.myPolarArea = Chart.PolarArea(ctx, config);
-    };
+          // ctx.font = "15px Arial";
+          // ctx.textAlign = 'right';
+          // ctx.textBaseline = 'bottom';
+          // ctx.fillStyle = "#000";
 
-})
+          // this.data.datasets.forEach(function(dataset, i) {
+          //  var meta = chartInstance.controller.getDatasetMeta(i);
+          //  meta.data.forEach(function(bar, index) {
+          //  var myangl=((bar._model.startAngle)+(bar._model.endAngle))/2;
+          //  var xpoint= (parseFloat(bar._model.outerRadius)+20)*(Math.cos(myangl)) + (bar._model.x);
+          //  var ypoint= (parseFloat(bar._model.outerRadius)+20)*(Math.sin(myangl)) + (bar._model.y);
+          //  ctx.fillText(bar._model.label,xpoint ,ypoint);
+          //  });
+          // });
+      //         }
+      //     }
+    }
+});
+
+// $(document).ready(function(){
+//     'use strict';
+
+
+// })
 
 function testCall() {
     $.ajax({

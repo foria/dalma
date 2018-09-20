@@ -6,35 +6,716 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>D'alma</title>
 
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <!-- Place favicon.ico in the root directory -->
-
-    <!-- build:css styles/main.css -->
+    <!-- <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700" rel="stylesheet"> -->
     <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
 
   </head>
   <body>
 
-    <div id="charts">
-      <div class="wrapper"><canvas id="main-chart"></canvas></div>
+    <div class="main-chart">
+      <div class="wrapper">
+        <canvas id="mainchart"></canvas>
+      </div>
     </div>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <!-- <script>
-      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='https://www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script> -->
+    <div class="container legend-wrapper">
+      <div class="legend">
+        <img src="images/legend.svg">
+      </div>
 
-    <!-- build:js scripts/vendor.js -->
-    <!-- bower:js -->
-    <!-- endbower -->
-    <!-- endbuild -->
+      <div class="legend-desc">
+        <p class="legend-strong"><strong>Áreas de fortaleza</strong> </p>
+        <p class="legend-med"><strong>Áreas en desarrollo</strong> </p>
+        <p class="legend-low"><strong>Áreas de oportunidad</strong> </p>
+      </div>
+    </div>
 
+    <div class="single-charts container">
+
+      <h1>Dimensión Personas</h1>
+
+      <div class="row" data-group="1">
+        <h2>Área Equipos</h2>
+        <ul class="results-list">
+          <li>
+            <h3>Nivel Equipos de alto rendimiento</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="1">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <h3>Diversidad complementaria</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="2">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <h3>Aportación de valor</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="3">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <h3><em>Promedio del área<br> Equipos</em></h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-groupaverage="1">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="row" data-group="2">
+        <h2>Salud y bienestar</h2>
+        <ul class="results-list">
+          <li>
+            <h3>Compañía saludable</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="4">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Cultura saludable</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="5">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Clima</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="6">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3><em>Promedio del área<br> Salud y bienestar</em></h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-groupaverage="2">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="row" data-group="3">
+        <h2>Liderazgo</h2>
+        <ul class="results-list">
+          <li>
+            <h3>Liderazgo consciente</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="7">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Desarrollo de líderes</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="8">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Modelo de liderazgo</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="9">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3><em>Promedio del área<br> Liderazgo</em></h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-groupaverage="3">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+        </ul>
+      </div>
+
+      <h1>Dimensión Cultura</h1>
+
+      <div class="row" data-group="4">
+        <h2>Fundations</h2>
+        <ul class="results-list">
+          <li>
+            <h3>Casa de la cultura</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="10">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Culture book</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="11">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Misión, Visión y Valores</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="12">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3><em>Promedio del área<br> Fundations</em></h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-groupaverage="4">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="row" data-group="5">
+        <h2>Atracción de talento</h2>
+        <ul class="results-list">
+          <li>
+            <h3>Best place to work</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="13">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Desarrollo del talento</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="14">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Engagement</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="15">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3><em>Promedio del área<br> Atracción de talento</em></h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-groupaverage="5">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="row" data-group="6">
+        <h2>Change Management</h2>
+        <ul class="results-list">
+          <li>
+            <h3>Cultura del cambio</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="16">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Change management office</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="17">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Change path</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="18">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3><em>Promedio del área<br> Change Management</em></h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-groupaverage="6">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+        </ul>
+      </div>
+
+      <h1>Dimensión Procesos</h1>
+
+      <div class="row" data-group="7">
+        <h2>Capital humano</h2>
+        <ul class="results-list">
+          <li>
+            <h3>People development plan</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="19">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>People management plan</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="20">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Staffing plan</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="21">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3><em>Promedio del área<br> Capital humano</em></h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-groupaverage="7">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="row" data-group="8">
+        <h2>Governancia</h2>
+        <ul class="results-list">
+          <li>
+            <h3>Process development plan</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="22">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Modelo de toma de decisiones</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="23">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Organigrama</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="24">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3><em>Promedio del área<br> Governancia</em></h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-groupaverage="8">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="row" data-group="9">
+        <h2>Eficiencia y agilidad</h2>
+        <ul class="results-list">
+          <li>
+            <h3>Proactividad</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="25">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Métodos ágiles de respuesta</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="26">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3>Dashboard</h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-answer="27">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+          <li>
+            <h3><em>Promedio del área<br> Eficiencia y agilidad</em></h3>
+            <div class="result-value" data-toggle="tooltip" data-placement="top" data-aos="custom-an" data-groupaverage="9">
+              <span class="bar"></span>
+              <div class="grid">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div></div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+    <!-- <script src="scripts/chartjs-plugin-datalabels.min.js"></script> -->
+
+    <script src="scripts/jquery-3.2.1.min.js"></script>
     <!-- build:js scripts/plugins.js -->
     <!-- <script src="/bower_components/bootstrap/js/dist/util.js"></script>
     <script src="/bower_components/bootstrap/js/dist/alert.js"></script>
@@ -48,12 +729,24 @@
     <script src="/bower_components/bootstrap/js/dist/tooltip.js"></script>
     <script src="/bower_components/bootstrap/js/dist/popover.js"></script> -->
     <!-- endbuild -->
+    <script src="scripts/bootstrap.bundle.min.js"></script>
 
-    <!-- <script src="scripts/jquery-3.2.1.min.js"></script> -->
-    <!-- <script src="scripts/chartjs-plugin-datalabels.min.js"></script> -->
-
+    <!-- <script src="scripts/chart.js"></script> -->
     <script src="scripts/chart.min.js"></script>
-    <script src="scripts/utils.js"></script>
-    <script src="scripts/main.js"></script>
+    <!-- <script src="scripts/utils.js"></script> -->
+
+    <script src="scripts/aos.js"></script>
+
+    <script src="scripts/main.js?ver=2"></script>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <!-- <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='https://www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script> -->
   </body>
 </html>

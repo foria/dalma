@@ -3,37 +3,186 @@
 
 // BOOTSTRAP with all components.
 // We will check at the end of project which components are useless and remove them
-//@import 'bootstrap/bootstrap';
+@import 'bootstrap/bootstrap';
 
-#charts {
+body {
+    font-family: $font-family;
+    font-size: 1.125em;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1.4;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    padding: 1.4em 0;
+    margin-bottom: 1.4em;
+
+    &:first-of-type {
+        background-color: #5491CD;
+    }
+
+    &:nth-of-type(2) {
+        background-color: #9BD2C5;
+    }
+
+    &:nth-of-type(3) {
+        background-color: #455AA5;
+    }
+}
+
+h2 {
+    font-weight: $font-bold;
+    color: #5491CD;
+    font-size: 1.4em;
+}
+
+h3 {
+    font-size: 1em;
+    font-weight: $font-bold;
+}
+
+.container {
+    max-width: 90%;
+    margin: 100px auto;
+}
+
+.main-chart {
     width: 100%;
     height: 650px;
     position: relative;
+
+    &:before {
+      content: " ";
+      display: block;
+      background: url(../images/labels.svg) center no-repeat;
+      background-size: contain;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+
+    .wrapper {
+      width: 68%;
+      height: 68%;
+      position: absolute;
+      top: 54%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+         -moz-transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+           -o-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+    }
 }
 
-#charts:before {
-  content: " ";
-  display: block;
-  background: url(../images/labels.svg) center no-repeat;
-  background-size: contain;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-}
-
-.wrapper {
-  width: 68%;
-  height: 68%;
-  position: absolute;
-  top: 54%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-     -moz-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-       -o-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
-
-#main-chart {
+#mainchart {
     border-radius: 50%;
+}
+
+.legend-wrapper {
+ display: flex;
+ flex-direction: row;
+}
+
+.legend {
+    width: 100px;
+    margin-right: 10%;
+}
+
+.legend-desc {
+    margin-top: 10px;
+
+    strong {
+        display: block;
+    }
+    span:not(:last-child){
+        &:after {
+            content: ",";
+        }
+    }
+}
+
+.single-charts .row {
+    margin-bottom: 2.8em;
+}
+
+.results-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        display: flex;
+        flex-direction: row;
+        height: 2.8em;
+        align-items: center;
+        margin: 0 0 1.4em;
+
+        h3 {
+            margin: 0;
+            text-align: center;
+            flex-basis: 28%;
+
+            em {
+                font-weight: normal;
+            }
+        }
+    }
+}
+
+.result-value {
+    flex-basis: 72%;
+    //direction: rtl;
+    background-color: #F6F6F6;
+    height: 1.4em;
+    overflow: hidden;
+    position: relative;
+
+    .bar {
+        display: block;
+        width: 0;
+        height: 1.4em;
+        background-color: #F6F6F6;
+        transform: translatex(-100%);
+        transition: transform .3s ease-out;
+
+        &.green {
+            background-color: $topColor;
+        }
+
+        &.yellow {
+            background-color: $medColor;
+        }
+
+        &.orange {
+            background-color: $lowColor;
+        }
+    }
+
+    &.aos-animate {
+        span {
+            transform: translatex(0);
+
+        }
+    }
+
+    .grid {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+
+        span {
+            display: block;
+            flex-basis: 10%;
+            height: 100%;
+            border: 2px solid white;
+            border-width: 0 2px;
+        }
+    }
 }

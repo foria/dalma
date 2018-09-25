@@ -124,6 +124,10 @@ header {
     }
 }
 
+.single-charts {
+    margin-bottom: 4em;
+}
+
 .answer-group {
     margin-bottom: 2.8em;
 
@@ -218,5 +222,22 @@ header {
             border: 2px solid white;
             border-width: 0 2px;
         }
+    }
+}
+
+
+.footer-logo {
+    width: 40%;
+    margin: 0 auto 4em;
+    text-align: center;
+
+    img {
+        width: 100%;
+    }
+
+    a {
+        color: black;
+        font-size: 1.8em;
+        font-weight: bold;
     }
 }

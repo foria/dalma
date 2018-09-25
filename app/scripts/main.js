@@ -352,12 +352,12 @@ function getSubmission(email) {
 }
 
 var userEmail = getParameterByName('email');
-// if(userEmail){
-//     getSubmission(userEmail);
-// }
+if(userEmail){
+    getSubmission(userEmail);
+}
 
-mainChart(exResponses);
-singleCharts(exResponses);
+// mainChart(exResponses);
+// singleCharts(exResponses);
 
 
 // $(document).ready(function(){

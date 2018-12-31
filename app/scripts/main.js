@@ -83,7 +83,9 @@ var labels = [
   'Eficiencia y agilidad'
 ];
 
-var colors = ['rgba(132,191,136, 0.3)', 'rgba(255, 241, 175, 0.3)', 'rgba(248, 170, 143, 0.3)'];
+var questIDs = ["GjZDxIWoitHN", "vHMsURMZG6OH", "jYrB63LOG14O", "Br4ZYLekorFP", "Xhv6eCVDoz72", "wMJmJyPzmQYq", "Q9Opyui1HYXS", "BiNDYgL6pijY", "RQcikfxqnZAM", "hc3VAxHesd6e", "QbWdWlaB6WiB", "oAFijsOTsBSB", "qh2xtO25fFcY", "Vsnk5SUFoes6", "CTq9eh0oGTUS", "A6ng25Gj39Bb", "kfQpbN5VbBsy", "aeWEGlBHNDMS", "shitJPiYNY5u", "H4r9pNIb6nEw", "KhhCWMwoK6jG", "ET5HUcq3sMZL", "n9PZvY4rVe99", "rCIV2QLNt7zc", "hDzFIlUxCBi9", "hTcrVpRYPUfk", "aqmD7IzJfLQf"];
+
+//var colors = ['rgba(132,191,136, 0.3)', 'rgba(255, 241, 175, 0.3)', 'rgba(248, 170, 143, 0.3)'];
 //var colors = [chartContext.createPattern(patternCanvas, 'repeat'), 'rgba(255, 241, 175, 0.3)', 'rgba(248, 170, 143, 0.3)'];
 
 var m3qData = [],
@@ -91,221 +93,77 @@ var m3qData = [],
     percentages = [],
     answers = [],
     exData = [100,30,80,50,10,80,60,40,20],
-    exResponses = [5,5,3,4,1,4,3,4,2,5,4,3,4,1,4,3,4,3,5,3,3,4,1,4,3,4,2];
-    //exResponses = [2,2,2,0,0,0,5,5,5,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2];
+    exResponses = [3,3,3,1,1,1,2,2,2,0,0,0,1,2,3,1,1,3,2,2,3,1,1,2,2,2,1];
 
 var $lgStrong = $(".legend-strong"),
     $lgMed = $(".legend-med"),
     $lgLow = $(".legend-low");
 
-Chart.helpers.merge(Chart.defaults.global, {
-    maintainAspectRatio: false,
-    //tooltips: false,
-    // layout: {
-    //  padding: 16
-    // },
-    // elements: {
-    //  arc: {
-    //            borderWidth: 10
-    //  }
-    // },
-    plugins: {
-      legend: false,
-      //title: false
-    }
-});
+var svgItems = ["#equipo","#saludbenestar","#liderzago","#foundations", "#culturacambio", "#capitalhumano","#governancia", "#eficiencia", "#engagement"]
 
-// Chart.plugins.register({
-//   beforeDraw: function(chartInstance) {
-//     var ctx = chartInstance.chart.ctx;
-//        var centerX = chartInstance.chart.width / 2;
-//     var centerY = chartInstance.chart.height / 2;
-//     ctx.beginPath();
-//      ctx.arc(centerX, centerY, centerX, 0, Math.PI * 2, true); // Outer circle
-//     ctx.fillStyle = "red";
-//  ctx.fill();
-//   }
-// });
-
-function assignColor(value, getClass) {
-    if( value > 79 ){
-        if(getClass){
-            return "green";
-        } else {
-            return colors[0];
-        }
-    } else if( value > 39 ){
-        if(getClass){
-            return "yellow";
-        } else {
-            return colors[1];
-        }
-    } else {
-        if(getClass){
-            return "orange";
-        } else {
-            return colors[2];
-        }
+function colorPath(el,value) {
+    if( value == 3 ){
+        $(el).find("#tre, #due, #uno").css('fill', '#8EBE82');
+    } else if( value == 2 ){
+        $(el).find("#due, #uno").css('fill', '#FFF1B4');
+    }  else if( value == 1 ){
+        $(el).find("#uno").css('fill', '#F6AF95');
     }
+}
+
+function assignColor(value) {
+  var color;
+  if( value == 3 ){
+    color = 'green';
+  } else if( value == 2 ){
+    color = 'yellow';
+  }  else if( value == 1 ){
+    color = 'red';
+  }
+  return color;
+}
+
+var chartSize;
+var orChartSize = 546;
+function resizeChart(array) {
+    chartSize = parseInt($(window).width())*0.60;
+    $('#chart').width(chartSize);
+    $('#chart').height(chartSize);
 }
 
 function mainChart(array) {
+    resizeChart();
 
     // Get avarage percentage values
     for( i=0, b=0; i<array.length; i+=3, b++){
-        m3qData[b] = Math.round( ((array[i]+array[i+1]+array[i+2])/3) * 100/5 );
+        m3qData[b] = Math.round( (array[i]+array[i+1]+array[i+2])/3 );
     }
-    //console.log(m3qData);
+    console.log(m3qData);
 
-    for( i=0; i<m3qData.length; i++){
-        pointsColors[i] = assignColor(m3qData[i]);
+    for( i=0; i<svgItems.length; i++){
+        colorPath(svgItems[i], m3qData[i]);
     }
-    //console.log(pointsColors);
-
-    var chart = new Chart('mainchart', {
-        type: 'polarArea',
-        data: {
-              labels: labels,
-                datasets: [{
-                    data: m3qData,
-                    backgroundColor: pointsColors,
-                    borderWidth: 4,
-                  hoverBorderColor: 'white',
-                  hoverBorderWidth: 4
-                }]
-            },
-        options: {
-              scale: {
-                // angleLines:{
-                //     display: true,
-                //     color: 'white',
-                //     lineWidth: 30
-                // },
-                pointLabels: {
-                  //display: true,
-                  // callback: function(pointLabel, index, labels) {
-                 //        console.log(pointLabel + " " + index + " " + labels);
-                    //}
-                },
-                gridLines:{
-                    lineWidth: 15,
-                    color: '#fcfcfc',
-                    drawBorder: false,
-                    drawOnChartArea: false,
-                    drawTicks: false,
-                    tickMarkLength: 100,
-                    zeroLineWidth: 10,
-                    // zeroLineColor: 'rgba(0,0,0,0.25)',
-                    // zeroLineBorderDash: [],
-                    // zeroLineBorderDashOffset: 0.0,
-                    offsetGridLines: true,
-                    // borderDash: [],
-                    // borderDashOffset: 0.0
-                },
-            // tooltips: {
-            //  mode: 'index',
-            //  callbacks: {
-            //    // Use the footer callback to display the sum of the items showing in the tooltip
-            //    footer: function(tooltipItems, data) {
-            //      var sum = 0;
-            //      tooltipItems.forEach(function(tooltipItem) {
-            //        sum += data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-            //      });
-            //      return 'Sum: ' + sum;
-            //    },
-            //  },
-            //  footerFontStyle: 'bold'
-            // },
-                tooltips: {
-                    custom: function(tooltip) {
-                        // tooltip will be false if tooltip is not visible or should be hidden
-                        if (!tooltip) {
-                            return;
-                        }
-                        tooltip.body = ['TEST']
-                    }
-                },
-                  ticks: {
-                    display: false,
-                    // suggestedMin: 0,
-                    // suggestedMax: 100
-                    max: 100,
-                    //min: 0,
-                    //stepSize: 10
-                  }
-              },
-          startAngle: 2.510*Math.PI,
-          // plugins: {
-          //  datalabels: {
-          //    anchor: 'end',
-          //    align: 'end',
-          //    //offset: 150,
-          //    backgroundColor: function(context) {
-          //      return context.dataset.backgroundColor;
-          //    },
-          //    borderColor: 'white',
-          //    //borderRadius: 25,
-          //    borderWidth: 2,
-          //    color: 'white',
-          //    font: {
-          //      weight: 'bold'
-          //    },
-          //    formatter: function(value, context) {
-        //                         return context.chart.data.labels[context.dataIndex];
-        //                     }
-          //  }
-          // }
-          //     animation: {
-          //         duration: 1,
-          //         onComplete: function() {
-              // var chartInstance = this.chart,
-              // ctx = chartInstance.ctx;
-
-              // ctx.font = "15px Arial";
-              // ctx.textAlign = 'right';
-              // ctx.textBaseline = 'bottom';
-              // ctx.fillStyle = "#000";
-
-              // this.data.datasets.forEach(function(dataset, i) {
-              //  var meta = chartInstance.controller.getDatasetMeta(i);
-              //  meta.data.forEach(function(bar, index) {
-              //  var myangl=((bar._model.startAngle)+(bar._model.endAngle))/2;
-              //  var xpoint= (parseFloat(bar._model.outerRadius)+20)*(Math.cos(myangl)) + (bar._model.x);
-              //  var ypoint= (parseFloat(bar._model.outerRadius)+20)*(Math.sin(myangl)) + (bar._model.y);
-              //  ctx.fillText(bar._model.label,xpoint ,ypoint);
-              //  });
-              // });
-          //         }
-          //     }
-        }
-    });
 }
 
 function singleCharts(array) {
-    var wBar, elHTML;
+    var wBar, elColor;
 
     // Transform answers in percentage values
     for( i=0; i<array.length; i++){
-        wBar = array[i]*100/5;
-        elColor = assignColor(wBar, true);
+        wBar = array[i]*33.33;
+        elColor = assignColor(array[i]);
         //console.log(wBar + " " + elColor);
         $('.result-value[data-answer="'+(i+1)+'"]').find('.bar').addClass(elColor).width(wBar+"%");
-        $('.result-value[data-answer="'+(i+1)+'"]').attr("title",wBar+"%");
-
-
-        //$('.result-value[data-answer="'+(i+1)+'"]').html(elHTML);
-
-        //console.log(elHTML);
+        //$('.result-value[data-answer="'+(i+1)+'"]').attr("title",wBar);
     }
 
     // Transform answers in percentage values
     //console.log(m3qData);
     for( n=0; n<m3qData.length; n++){
-        wBar = m3qData[n];
-        elColor = assignColor(wBar, true);
+        wBar = m3qData[n]*33.33;
+        elColor = assignColor(m3qData[n]);
         $('.result-value[data-groupaverage="'+(n+1)+'"]').find('.bar').addClass(elColor).width(wBar+"%");
-        $('.result-value[data-groupaverage="'+(n+1)+'"]').attr("title",wBar+"%");
-
+        //$('.result-value[data-groupaverage="'+(n+1)+'"]').attr("title",wBar+"%");
 
         if(elColor == "green") {
             $lgStrong.append("<span>" + labels[n] + "</span> ");
@@ -317,7 +175,7 @@ function singleCharts(array) {
         }
     }
 
-    $('[data-toggle="tooltip"]').tooltip();
+    //$('[data-toggle="tooltip"]').tooltip();
 
 }
 
@@ -332,32 +190,53 @@ function getParameterByName(name, url) {
 }
 
 function getSubmission(email) {
-    $.ajax({
-        url: "https://api.typeform.com/forms/fepjH3/responses?query="+email,
-        method: "GET",
-        headers: {
-            "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'
-        },
-        success: function(response) {
-            console.log( response );
-            // Parsing JSON for answer values
-            for(var i=1; i<response.items[0].answers.length; i++) {
-                answers[i-1] = response.items[0].answers[i].number;
-            }
-            //console.log( response.items[0].answers );
-            mainChart(answers);
-            singleCharts(answers);
-        }
-    });
+  // $.ajax({
+  //   url: "https://api.typeform.com/forms/fepjH3",
+  //   method: "GET",
+  //   headers: {
+  //       "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'
+  //   },
+  //   success: function(response) {
+  //       //var ids = [];
+  //       console.log( response );
+  //   }
+  // });
+
+  $.ajax({
+      url: "https://api.typeform.com/forms/fepjH3/responses?query="+email,
+      method: "GET",
+      headers: {
+          "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'
+      },
+      success: function(response) {
+          //var ids = [];
+          console.log( response );
+
+          // Parsing JSON for answer values by ID
+          for(var n=0; n<questIDs.length; n++) {
+              for(var i=0; i<response.items[0].answers.length; i++) {
+                  //console.log(response.items[0].answers[i].field.id);
+                  if(response.items[0].answers[i].field.id == questIDs[n]){
+                      answers[n] = response.items[0].answers[i].choice.label;
+                  }
+              }
+          }
+
+          console.log( answers );
+          //console.log( response.items[0].answers );
+          mainChart(answers);
+          singleCharts(answers);
+      }
+  });
 }
 
-var userEmail = getParameterByName('email');
-if(userEmail){
-    getSubmission(userEmail);
-}
+// var userEmail = getParameterByName('email');
+// if(userEmail){
+//     getSubmission(userEmail);
+// }
 
-// mainChart(exResponses);
-// singleCharts(exResponses);
+mainChart(exResponses);
+singleCharts(exResponses);
 
 
 // $(document).ready(function(){
@@ -365,3 +244,41 @@ if(userEmail){
 
 
 // })
+
+function createPDF(){
+  $('body').addClass('printpdf');
+  $('#chart').width(orChartSize);
+  $('#chart').height(orChartSize);
+
+  var element = document.getElementById('m3q');
+  var opt = {
+    margin:       [0,0.5,0,0.5],
+    pagebreak:    { mode: ['legacy'] },
+    filename:     'test.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 1 },
+    jsPDF:        { unit: 'in', orientation: 'landscape', compressPDF: true }
+  };
+
+  // New Promise-based usage:
+  html2pdf().set(opt).from(element).save().then(function(pdf){
+    $('#chart').width(chartSize);
+    $('#chart').height(chartSize);
+    $('body').removeClass('printpdf');
+  });;
+}
+
+$('#pdf-creatiion').click(function(){
+  //console.log('test');
+  createPDF();
+
+  // Email.send({
+  //     SecureToken : "da729942-8dc5-4fcc-90a2-d43a824af356",
+  //     To : 'foriaa@gmail.com',
+  //     From : "m3q-result@dalmabp.com",
+  //     Subject : "This is the subject",
+  //     Body : "And this is the body"
+  // }).then(
+  //   message => alert(message)
+  // );
+})

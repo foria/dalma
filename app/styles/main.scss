@@ -7,7 +7,8 @@
 
 body {
     font-family: $font-family;
-    font-size: 1.125em;
+    //font-size: 1.125em;
+    font-size: 1em;
     font-weight: normal;
     font-style: normal;
     line-height: 1.4;
@@ -16,18 +17,34 @@ body {
 h1 {
     text-align: center;
     color: white;
-    padding: 1.4em 0;
+    //padding: 1.4em 0;
+    height: 160px;
+    line-height: 160px;
     margin-bottom: 1.4em;
+    //break-before: always;
+    position: relative;
 
-    &:first-of-type {
+    span {
+        display: block;
+
+        .printpdf & {
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translatey(-50%);
+        }
+    }
+
+    &:first-of-type span {
         background-color: #5491CD;
     }
 
-    &:nth-of-type(2) {
+    &:nth-of-type(2) span {
         background-color: #9BD2C5;
     }
 
-    &:nth-of-type(3) {
+    &:nth-of-type(3) span {
         background-color: #455AA5;
     }
 }
@@ -42,7 +59,7 @@ h3 {
 }
 
 header {
-    margin-bottom: 50px;
+    margin: 100px 0 50px 0;
 }
 
 .header-title {
@@ -64,55 +81,137 @@ header {
     }
 }
 
-.main-chart {
-    margin-bottom: 100px;
-}
+#chart {
+    display: block;
+    margin: 0 auto;
 
-.main-chart-wrapper {
-    width: 100%;
-    height: 650px;
-    position: relative;
-
-    &:before {
-      content: " ";
-      display: block;
-      background: url(../images/labels.svg) center no-repeat;
-      background-size: contain;
-      width: 100%;
-      height: 100%;
-      position: absolute;
+    #uno,
+    #due,
+    #tre {
+        fill: #ffffff;
+        transition: fill .3s;
     }
 }
 
-.main-chart-container {
-  width: 68%;
-  height: 68%;
-  position: absolute;
-  top: 54%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-     -moz-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-       -o-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+#equipo {
+    #uno {
+        transition-delay: .3s;
+    }
+    #due {
+        transition-delay: .5s;
+    }
+    #tre {
+        transition-delay: .7s;
+    }
 }
 
-#mainchart {
-    border-radius: 50%;
+#saludbenestar {
+    #uno {
+        transition-delay: .4s;
+    }
+    #due {
+        transition-delay: .6s;
+    }
+    #tre {
+        transition-delay: .8s;
+    }
+}
+
+#liderzago {
+    #uno {
+        transition-delay: .5s;
+    }
+    #due {
+        transition-delay: .7s;
+    }
+    #tre {
+        transition-delay: .9s;
+    }
+}
+
+#foundations {
+    #uno {
+        transition-delay: .6s;
+    }
+    #due {
+        transition-delay: .8s;
+    }
+    #tre {
+        transition-delay: 1s;
+    }
+}
+
+#engagement {
+    #uno {
+        transition-delay: .7s;
+    }
+    #due {
+        transition-delay: .9s;
+    }
+    #tre {
+        transition-delay: 1.1s;
+    }
+}
+
+#culturacambio {
+    #uno {
+        transition-delay: .8s;
+    }
+    #due {
+        transition-delay: 1s;
+    }
+    #tre {
+        transition-delay: 1.2s;
+    }
+}
+
+#capitalhumano {
+    #uno {
+        transition-delay: .9s;
+    }
+    #due {
+        transition-delay: 1.1s;
+    }
+    #tre {
+        transition-delay: 1.3s;
+    }
+}
+
+#governancia {
+    #uno {
+        transition-delay: 1s;
+    }
+    #due {
+        transition-delay: 1.2s;
+    }
+    #tre {
+        transition-delay: 1.4s;
+    }
+}
+
+#eficiencia {
+    #uno {
+        transition-delay: 1.1s;
+    }
+    #due {
+        transition-delay: 1.3s;
+    }
+    #tre {
+        transition-delay: 1.3s;
+    }
 }
 
 .legend-wrapper {
- display: flex;
- flex-direction: row;
-}
+    background: url(../images/legend.jpg) top left no-repeat;
+    background-size: auto 250px;
+    margin-top: 75px;
+    margin-bottom: 7em;
+    padding: 0 0 50px 150px;
 
-.legend {
-    width: 100px;
-    margin-right: 10%;
-}
-
-.legend-desc {
-    margin-top: 10px;
+    > p {
+        height: 4em;
+        margin-bottom: 10px;
+    }
 
     strong {
         display: block;
@@ -130,6 +229,7 @@ header {
 
 .answer-group {
     margin-bottom: 2.8em;
+    break-before: always;
 
     &--title {
         margin-bottom: 1.4em;
@@ -194,7 +294,7 @@ header {
             background-color: $medColor;
         }
 
-        &.orange {
+        &.red {
             background-color: $lowColor;
         }
     }
@@ -217,7 +317,7 @@ header {
 
         span {
             display: block;
-            flex-basis: 10%;
+            flex-basis: 33.333%;
             height: 100%;
             border: 2px solid white;
             border-width: 0 2px;
@@ -225,11 +325,32 @@ header {
     }
 }
 
+footer {
+    text-align: center;
+}
+
+#pdf-creatiion {
+    display: inline-block;
+    background-color: #5491CD;
+    //width: 300px;
+    padding: 0 30px;
+    height: 4em;
+    line-height: 4em;
+    font-size: 1.5em;
+    text-align: center;
+    margin: 0 auto;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+
+    &:hover {
+        opacity: .7;
+    }
+}
 
 .footer-logo {
     width: 40%;
     margin: 0 auto 4em;
-    text-align: center;
 
     img {
         width: 100%;

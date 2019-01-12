@@ -89,7 +89,25 @@ header {
     #due,
     #tre {
         fill: #ffffff;
-        transition: fill .3s;
+        opacity: 0;
+        transition: opacity .3s;
+    }
+}
+
+.main-chart-wrapper.aos-animate #chart {
+    #uno,
+    #due,
+    #tre {
+        opacity: 1;
+    }
+}
+
+body.printpdf #chart {
+    #uno,
+    #due,
+    #tre {
+        opacity: 1;
+        transition: none !important;
     }
 }
 
@@ -236,7 +254,7 @@ header {
     }
 
     &--desc {
-        font-size: 0.8em;
+        //font-size: 0.8em;
     }
 
     h2 {
@@ -345,6 +363,10 @@ footer {
 
     &:hover {
         opacity: .7;
+    }
+
+    .printpdf & {
+        display: none;
     }
 }
 

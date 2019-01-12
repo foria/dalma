@@ -71,13 +71,13 @@
 // AOS plugin init
 AOS.init();
 
-var labels = [
+var titles = [
   'Equipo',
-  'Salud y bienestar',
+  'Salud y Bienestar',
   'Liderazgo',
   'Fundations',
-  'Atracción de talento',
-  'Change Management',
+  'Engagement',
+  'Culture del Cambio',
   'Capital humano',
   'Governancia',
   'Eficiencia y agilidad'
@@ -92,6 +92,7 @@ var m3qData = [],
     pointsColors = [],
     percentages = [],
     answers = [],
+    labels = [],
     exData = [100,30,80,50,10,80,60,40,20],
     exResponses = [3,3,3,1,1,1,2,2,2,0,0,0,1,2,3,1,1,3,2,2,3,1,1,2,2,2,1];
 
@@ -130,10 +131,17 @@ function resizeChart(array) {
     $('#chart').width(chartSize);
     $('#chart').height(chartSize);
 }
+resizeChart();
+
+function extractValues(array) {
+  for(i=0; i<array.length; i++){
+    array[i] = parseInt(array[i].split('.')[0]);
+  }
+  console.log(array);
+  return array;
+}
 
 function mainChart(array) {
-    resizeChart();
-
     // Get avarage percentage values
     for( i=0, b=0; i<array.length; i+=3, b++){
         m3qData[b] = Math.round( (array[i]+array[i+1]+array[i+2])/3 );
@@ -155,6 +163,8 @@ function singleCharts(array) {
         //console.log(wBar + " " + elColor);
         $('.result-value[data-answer="'+(i+1)+'"]').find('.bar').addClass(elColor).width(wBar+"%");
         //$('.result-value[data-answer="'+(i+1)+'"]').attr("title",wBar);
+        $('.result-value[data-answer="'+(i+1)+'"]').prev('h3').html(labels[i]);
+        //console.log($('.result-value[data-answer="'+(i+1)+'"]').prev('h3'));
     }
 
     // Transform answers in percentage values
@@ -166,12 +176,12 @@ function singleCharts(array) {
         //$('.result-value[data-groupaverage="'+(n+1)+'"]').attr("title",wBar+"%");
 
         if(elColor == "green") {
-            $lgStrong.append("<span>" + labels[n] + "</span> ");
-            //console.log(labels[n]);
+            $lgStrong.append("<span>" + titles[n] + "</span> ");
+            //console.log(titles[n]);
         } else if(elColor == "yellow") {
-            $lgMed.append("<span>" + labels[n] + "</span> ");
+            $lgMed.append("<span>" + titles[n] + "</span> ");
         } else {
-            $lgLow.append("<span>" + labels[n] + "</span> ");
+            $lgLow.append("<span>" + titles[n] + "</span> ");
         }
     }
 
@@ -190,17 +200,28 @@ function getParameterByName(name, url) {
 }
 
 function getSubmission(email) {
-  // $.ajax({
-  //   url: "https://api.typeform.com/forms/fepjH3",
-  //   method: "GET",
-  //   headers: {
-  //       "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'
-  //   },
-  //   success: function(response) {
-  //       //var ids = [];
-  //       console.log( response );
-  //   }
-  // });
+  $.ajax({
+    url: "https://api.typeform.com/forms/fepjH3",
+    method: "GET",
+    headers: {
+        "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'
+    },
+    success: function(response) {
+        //var ids = [];
+        console.log( response );
+
+        // Parsing JSON for answer values by ID
+        for(var n=0; n<questIDs.length; n++) {
+            for(var i=0; i<response.fields.length; i++) {
+                //console.log(response.items[0].answers[i].field.id);
+                if(response.fields[i].id == questIDs[n]){
+                    labels[n] = response.fields[i].properties.description.substr(1).slice(0, -1);
+                }
+            }
+        }
+        console.log(labels);
+    }
+  });
 
   $.ajax({
       url: "https://api.typeform.com/forms/fepjH3/responses?query="+email,
@@ -223,6 +244,7 @@ function getSubmission(email) {
           }
 
           console.log( answers );
+          answers = extractValues(answers);
           //console.log( response.items[0].answers );
           mainChart(answers);
           singleCharts(answers);
@@ -230,13 +252,13 @@ function getSubmission(email) {
   });
 }
 
-// var userEmail = getParameterByName('email');
-// if(userEmail){
-//     getSubmission(userEmail);
-// }
+var userEmail = getParameterByName('email');
+if(userEmail){
+    getSubmission(userEmail);
+}
 
-mainChart(exResponses);
-singleCharts(exResponses);
+// mainChart(exResponses);
+// singleCharts(exResponses);
 
 
 // $(document).ready(function(){
@@ -254,7 +276,7 @@ function createPDF(){
   var opt = {
     margin:       [0,0.5,0,0.5],
     pagebreak:    { mode: ['legacy'] },
-    filename:     'test.pdf',
+    filename:     'm3q_report-'+userEmail+'.pdf',
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { scale: 1 },
     jsPDF:        { unit: 'in', orientation: 'landscape', compressPDF: true }

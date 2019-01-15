@@ -127,9 +127,15 @@ function assignColor(value) {
 var chartSize;
 var orChartSize = 546;
 function resizeChart(array) {
-    chartSize = parseInt($(window).width())*0.60;
+    winW = $(window).width();
+    if(winW > 1023){
+      chartSize = parseInt(winW)*0.60;
+    } else {
+      chartSize = parseInt(winW)*0.94;
+    }
     $('#chart').width(chartSize);
     $('#chart').height(chartSize);
+    $('#chart').css('visibility', 'visible');
 }
 resizeChart();
 
@@ -284,8 +290,7 @@ function createPDF(){
 
   // New Promise-based usage:
   html2pdf().set(opt).from(element).save().then(function(pdf){
-    $('#chart').width(chartSize);
-    $('#chart').height(chartSize);
+    resizeChart();
     $('body').removeClass('printpdf');
   });;
 }

@@ -24,6 +24,17 @@ h1 {
     //break-before: always;
     position: relative;
 
+    @include media-breakpoint-down(sm) {
+        body:not(.printpdf) & {
+            height: auto;
+            line-height: 1.4;
+
+            span {
+                padding: 1.4em 1em;
+            }
+        }
+    }
+
     span {
         display: block;
 
@@ -60,21 +71,45 @@ h3 {
 
 header {
     margin: 100px 0 50px 0;
+
+    @include media-breakpoint-down(sm) {
+        body:not(.printpdf) & {
+            margin: 20px 0 50px 0;
+        }
+    }
 }
 
 .header-title {
     font-size: 3em;
     margin-bottom: 0.7em;
     letter-spacing: 5px;
+
+    @include media-breakpoint-down(sm) {
+        body:not(.printpdf) & {
+            font-size: 2em;
+        }
+    }
 }
 
 .header-text {
     width: 30%;
     font-size: 0.8em;
+
+    @include media-breakpoint-down(sm) {
+        body:not(.printpdf) & {
+            width: 50%;
+        }
+    }
 }
 
 .logo {
     width: 20%;
+
+    @include media-breakpoint-down(sm) {
+        body:not(.printpdf) & {
+            width: 40%;
+        }
+    }
 
     img {
         width: 100%;
@@ -84,6 +119,7 @@ header {
 #chart {
     display: block;
     margin: 0 auto;
+    visibility: hidden;
 
     #uno,
     #due,
@@ -229,6 +265,12 @@ body.printpdf #chart {
     > p {
         height: 4em;
         margin-bottom: 10px;
+
+        @include media-breakpoint-down(sm) {
+            body:not(.printpdf) & span {
+                font-size: 0.6em;
+            }
+        }
     }
 
     strong {
@@ -253,8 +295,11 @@ body.printpdf #chart {
         margin-bottom: 1.4em;
     }
 
-    &--desc {
-        //font-size: 0.8em;
+    body.printpdf &--desc,
+    body.printpdf & .results-list {
+        width: 100%;
+        max-width: 100%;
+        flex: 100%;
     }
 
     h2 {
@@ -281,6 +326,12 @@ body.printpdf #chart {
             flex-basis: 28%;
             padding: 0 10px;
 
+            @include media-breakpoint-down(sm) {
+                body:not(.printpdf) & {
+                    flex-basis: 38%;
+                }
+            }
+
             em {
                 font-weight: normal;
             }
@@ -295,6 +346,12 @@ body.printpdf #chart {
     height: 1.4em;
     overflow: hidden;
     position: relative;
+
+    @include media-breakpoint-down(sm) {
+        body:not(.printpdf) & {
+            flex-basis: 60%;
+        }
+    }
 
     .bar {
         display: block;
@@ -361,6 +418,12 @@ footer {
     border-radius: 12px;
     cursor: pointer;
 
+    @include media-breakpoint-down(sm) {
+        body:not(.printpdf) & {
+            font-size: 1em;
+        }
+    }
+
     &:hover {
         opacity: .7;
     }
@@ -373,6 +436,12 @@ footer {
 .footer-logo {
     width: 40%;
     margin: 0 auto 4em;
+
+    @include media-breakpoint-down(sm) {
+        body:not(.printpdf) & {
+            width: 100%;
+        }
+    }
 
     img {
         width: 100%;

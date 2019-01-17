@@ -98,7 +98,8 @@ var m3qData = [],
 
 var $lgStrong = $(".legend-strong"),
     $lgMed = $(".legend-med"),
-    $lgLow = $(".legend-low");
+    $lgLow = $(".legend-low"),
+    $lgZero = $(".legend-zero");
 
 var svgItems = ["#equipo","#saludbenestar","#liderzago","#foundations", "#culturacambio", "#capitalhumano","#governancia", "#eficiencia", "#engagement"]
 
@@ -169,7 +170,9 @@ function singleCharts(array) {
         //console.log(wBar + " " + elColor);
         $('.result-value[data-answer="'+(i+1)+'"]').find('.bar').addClass(elColor).width(wBar+"%");
         //$('.result-value[data-answer="'+(i+1)+'"]').attr("title",wBar);
-        $('.result-value[data-answer="'+(i+1)+'"]').prev('h3').html(labels[i]);
+        // console.log(labels[i]);
+        // $('.result-value[data-answer="'+(i+1)+'"]').prev('h3').html(labels[i]);
+        // console.log($('.result-value[data-answer="'+(i+1)+'"]').prev('h3').html());
         //console.log($('.result-value[data-answer="'+(i+1)+'"]').prev('h3'));
     }
 
@@ -186,8 +189,10 @@ function singleCharts(array) {
             //console.log(titles[n]);
         } else if(elColor == "yellow") {
             $lgMed.append("<span>" + titles[n] + "</span> ");
-        } else {
+        } else if(elColor == "red") {
             $lgLow.append("<span>" + titles[n] + "</span> ");
+        } else  {
+            $lgZero.append("<span>" + titles[n] + "</span> ");
         }
     }
 
@@ -213,7 +218,7 @@ function getSubmission(email) {
         "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'
     },
     success: function(response) {
-        //var ids = [];
+        var label;
         console.log( response );
 
         // Parsing JSON for answer values by ID
@@ -221,11 +226,13 @@ function getSubmission(email) {
             for(var i=0; i<response.fields.length; i++) {
                 //console.log(response.items[0].answers[i].field.id);
                 if(response.fields[i].id == questIDs[n]){
-                    labels[n] = response.fields[i].properties.description.substr(1).slice(0, -1);
+                    label = response.fields[i].properties.description.substr(1).slice(0, -1);
+                    //console.log(label);
+                    $('.result-value[data-answer="'+(n+1)+'"]').prev('.result-text').find('h3').html(label);
+                    //console.log($('.result-value[data-answer="'+(n+1)+'"]').prev('h3').html());
                 }
             }
         }
-        console.log(labels);
     }
   });
 

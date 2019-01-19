@@ -83,9 +83,9 @@ var titles = [
   'Eficiencia y agilidad'
 ];
 
-var questIDs = ["GjZDxIWoitHN", "vHMsURMZG6OH", "jYrB63LOG14O", "Br4ZYLekorFP", "Xhv6eCVDoz72", "wMJmJyPzmQYq", "Q9Opyui1HYXS", "BiNDYgL6pijY", "RQcikfxqnZAM", "hc3VAxHesd6e", "QbWdWlaB6WiB", "oAFijsOTsBSB", "qh2xtO25fFcY", "Vsnk5SUFoes6", "CTq9eh0oGTUS", "A6ng25Gj39Bb", "kfQpbN5VbBsy", "aeWEGlBHNDMS", "shitJPiYNY5u", "H4r9pNIb6nEw", "KhhCWMwoK6jG", "ET5HUcq3sMZL", "n9PZvY4rVe99", "rCIV2QLNt7zc", "hDzFIlUxCBi9", "hTcrVpRYPUfk", "aqmD7IzJfLQf"];
+var questIDs = ["HYz7eABQhAj4", "qyAu3fGmLhdx", "ryvnMD1A4hRs", "CKVLadvPFOO2", "DsQwqmTj8onU", "pxf6VB5SaFJb", "Ya0OPd36Plbk", "wFiEOvH5IAOW", "RSvGdGSzrKJ4"];
 
-//var colors = ['rgba(132,191,136, 0.3)', 'rgba(255, 241, 175, 0.3)', 'rgba(248, 170, 143, 0.3)'];
+var colors = ['#7ea5d7', '#b1dad0', '#6a76b7'];
 //var colors = [chartContext.createPattern(patternCanvas, 'repeat'), 'rgba(255, 241, 175, 0.3)', 'rgba(248, 170, 143, 0.3)'];
 
 var m3qData = [],
@@ -93,8 +93,7 @@ var m3qData = [],
     percentages = [],
     answers = [],
     labels = [],
-    exData = [100,30,80,50,10,80,60,40,20],
-    exResponses = [3,3,3,1,1,1,2,2,2,0,0,0,1,2,3,1,1,3,2,2,3,1,1,2,2,2,1];
+    exResponses = [1, 1, 3, 3, 3, 3, 1, 1, 1];
 
 var $lgStrong = $(".legend-strong"),
     $lgMed = $(".legend-med"),
@@ -103,24 +102,24 @@ var $lgStrong = $(".legend-strong"),
 
 var svgItems = ["#equipo","#saludbenestar","#liderzago","#foundations","#engagement","#culturacambio","#capitalhumano","#governancia","#eficiencia"]
 
-function colorPath(el,value) {
+function colorPath(el,value, color) {
     if( value == 3 ){
-        $(el).find("#tre, #due, #uno").css('fill', '#8EBE82');
+        $(el).find("#tre, #due, #uno").css('fill', color);
     } else if( value == 2 ){
-        $(el).find("#due, #uno").css('fill', '#FFF1B4');
+        $(el).find("#due, #uno").css('fill', color);
     }  else if( value == 1 ){
-        $(el).find("#uno").css('fill', '#F6AF95');
+        $(el).find("#uno").css('fill', color);
     }
 }
 
 function assignColor(value) {
   var color;
-  if( value == 3 ){
-    color = 'green';
-  } else if( value == 2 ){
-    color = 'yellow';
-  }  else if( value == 1 ){
-    color = 'red';
+  if( value < 3 ){
+    color = colors[0];
+  } else if( value >= 3 && value < 6 ){
+    color = colors[1];
+  }  else if( value >= 6 ){
+    color = colors[2];
   }
   return color;
 }
@@ -149,54 +148,42 @@ function extractValues(array) {
 }
 
 function mainChart(array) {
-    // Get avarage percentage values
-    for( i=0, b=0; i<array.length; i+=3, b++){
-        m3qData[b] = Math.round( (array[i]+array[i+1]+array[i+2])/3 );
-    }
-    console.log(m3qData);
-
-    for( i=0; i<svgItems.length; i++){
-        colorPath(svgItems[i], m3qData[i]);
+    for( i=0, c=0; i<svgItems.length; i+=3, c++){
+        colorPath(svgItems[i], array[i], colors[c]);
+        colorPath(svgItems[i+1], array[i+1], colors[c]);
+        colorPath(svgItems[i+2], array[i+2], colors[c]);
     }
 }
 
 function singleCharts(array) {
     var wBar, elColor;
 
-    // Transform answers in percentage values
+    // Single
     for( i=0; i<array.length; i++){
         wBar = array[i]*33.33;
-        elColor = assignColor(array[i]);
+        //elColor = assignColor(i);
         //console.log(wBar + " " + elColor);
-        $('.result-value[data-answer="'+(i+1)+'"]').find('.bar').addClass(elColor).width(wBar+"%");
-        //$('.result-value[data-answer="'+(i+1)+'"]').attr("title",wBar);
-        // console.log(labels[i]);
-        // $('.result-value[data-answer="'+(i+1)+'"]').prev('h3').html(labels[i]);
-        // console.log($('.result-value[data-answer="'+(i+1)+'"]').prev('h3').html());
-        //console.log($('.result-value[data-answer="'+(i+1)+'"]').prev('h3'));
+        $('.result-value[data-answer="'+(i+1)+'"]').find('.bar').width(wBar+"%");
     }
 
-    // Transform answers in percentage values
-    //console.log(m3qData);
-    for( n=0; n<m3qData.length; n++){
-        wBar = m3qData[n]*33.33;
-        elColor = assignColor(m3qData[n]);
-        $('.result-value[data-groupaverage="'+(n+1)+'"]').find('.bar').addClass(elColor).width(wBar+"%");
-        //$('.result-value[data-groupaverage="'+(n+1)+'"]').attr("title",wBar+"%");
+    // Promedio
+    for( n=0; n<colors.length; n++){
+        var i = n*3;
+        wBar = (Math.round( (array[i]+array[i+1]+array[i+2])/3 ) )*33.33;
+        //elColor = assignColor(n);
+        $('.result-value[data-groupaverage="'+(n+1)+'"]').find('.bar').width(wBar+"%");
 
-        if(elColor == "green") {
-            $lgStrong.append("<span>" + titles[n] + "</span> ");
-            //console.log(titles[n]);
-        } else if(elColor == "yellow") {
-            $lgMed.append("<span>" + titles[n] + "</span> ");
-        } else if(elColor == "red") {
-            $lgLow.append("<span>" + titles[n] + "</span> ");
-        } else  {
-            $lgZero.append("<span>" + titles[n] + "</span> ");
-        }
+        // if(elColor == "green") {
+        //     $lgStrong.append("<span>" + titles[n] + "</span> ");
+        //     //console.log(titles[n]);
+        // } else if(elColor == "yellow") {
+        //     $lgMed.append("<span>" + titles[n] + "</span> ");
+        // } else if(elColor == "red") {
+        //     $lgLow.append("<span>" + titles[n] + "</span> ");
+        // } else  {
+        //     $lgZero.append("<span>" + titles[n] + "</span> ");
+        // }
     }
-
-    //$('[data-toggle="tooltip"]').tooltip();
 
 }
 
@@ -212,7 +199,7 @@ function getParameterByName(name, url) {
 
 function getSubmission(email) {
   $.ajax({
-    url: "https://api.typeform.com/forms/fepjH3",
+    url: "https://api.typeform.com/forms/D3Yyb5",
     method: "GET",
     headers: {
         "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'
@@ -227,7 +214,7 @@ function getSubmission(email) {
                 //console.log(response.items[0].answers[i].field.id);
                 if(response.fields[i].id == questIDs[n]){
                     label = response.fields[i].properties.description.substr(1).slice(0, -1);
-                    //console.log(label);
+                    console.log(label);
                     $('.result-value[data-answer="'+(n+1)+'"]').prev('.result-text').find('h3').html(label);
                     //console.log($('.result-value[data-answer="'+(n+1)+'"]').prev('h3').html());
                 }
@@ -237,7 +224,7 @@ function getSubmission(email) {
   });
 
   $.ajax({
-      url: "https://api.typeform.com/forms/fepjH3/responses?query="+email,
+      url: "https://api.typeform.com/forms/D3Yyb5/responses?query="+email,
       method: "GET",
       headers: {
           "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'

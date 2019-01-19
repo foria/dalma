@@ -48,15 +48,15 @@ h1 {
     }
 
     &:first-of-type span {
-        background-color: #5491CD;
+        background-color: $personasColor;
     }
 
     &:nth-of-type(2) span {
-        background-color: #9BD2C5;
+        background-color: $culturaColor;
     }
 
     &:nth-of-type(3) span {
-        background-color: #455AA5;
+        background-color: $processColor;
     }
 }
 
@@ -334,6 +334,38 @@ body.printpdf #chart {
         flex: 100%;
     }
 
+
+    body.lite & {
+        margin-bottom: 5em;
+    }
+
+    body.lite &--personas {
+        .bar {
+            background-color: $personasColor;
+        }
+        h2 {
+            color: $personasColor;
+        }
+    }
+
+    body.lite &--cultura {
+        .bar {
+            background-color: $culturaColor;
+        }
+        h2 {
+            color: $culturaColor;;
+        }
+    }
+
+    body.lite &--procesos {
+        .bar {
+            background-color: $processColor;
+        }
+        h2 {
+            color: $processColor;
+        }
+    }
+
     h2 {
         font-weight: $font-bold;
         color: #5491CD;
@@ -343,6 +375,10 @@ body.printpdf #chart {
 .results-list {
     list-style: none;
     margin: 0;
+
+    body.lite & {
+        margin-top: 30px;
+    }
 
     li {
         display: flex;
@@ -383,23 +419,23 @@ body.printpdf #chart {
 }
 
 .result-value {
-    flex-basis: 70%;
+    flex-basis: 50%;
     //direction: rtl;
     background-color: #F6F6F6;
-    height: 1.4em;
+    height: 2em;
     overflow: hidden;
     position: relative;
 
     @include media-breakpoint-down(sm) {
         body:not(.printpdf) & {
-            flex-basis: 60%;
+            flex-basis: 50%;
         }
     }
 
     .bar {
         display: block;
         width: 0;
-        height: 1.4em;
+        height: 100%;
         background-color: #F6F6F6;
         transform: translatex(-100%);
         transition: transform .3s ease-out;

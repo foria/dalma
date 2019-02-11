@@ -1,23 +1,31 @@
+
 // AOS plugin init
 AOS.init();
 
 var titles = [
-  'Personas',
-  'Cultura',
-  'Procesos'
+  'Equipo',
+  'Salud y Bienestar',
+  'Liderazgo',
+  'Fundations',
+  'Engagement',
+  'Culture del Cambio',
+  'Capital humano',
+  'Governancia',
+  'Eficiencia y agilidad'
 ];
 
-var questIDs = ["HYz7eABQhAj4", "qyAu3fGmLhdx", "ryvnMD1A4hRs", "CKVLadvPFOO2", "DsQwqmTj8onU", "pxf6VB5SaFJb", "Ya0OPd36Plbk", "wFiEOvH5IAOW", "RSvGdGSzrKJ4"];
+var questIDs = ["GjZDxIWoitHN", "vHMsURMZG6OH", "jYrB63LOG14O", "Br4ZYLekorFP", "Xhv6eCVDoz72", "wMJmJyPzmQYq", "Q9Opyui1HYXS", "BiNDYgL6pijY", "RQcikfxqnZAM", "hc3VAxHesd6e", "QbWdWlaB6WiB", "oAFijsOTsBSB", "qh2xtO25fFcY", "Vsnk5SUFoes6", "CTq9eh0oGTUS", "A6ng25Gj39Bb", "kfQpbN5VbBsy", "aeWEGlBHNDMS", "shitJPiYNY5u", "H4r9pNIb6nEw", "KhhCWMwoK6jG", "ET5HUcq3sMZL", "n9PZvY4rVe99", "rCIV2QLNt7zc", "hDzFIlUxCBi9", "hTcrVpRYPUfk", "aqmD7IzJfLQf"];
 
-var colors = ['#7ea5d7', '#b1dad0', '#6a76b7'];
+//var colors = ['rgba(132,191,136, 0.3)', 'rgba(255, 241, 175, 0.3)', 'rgba(248, 170, 143, 0.3)'];
 //var colors = [chartContext.createPattern(patternCanvas, 'repeat'), 'rgba(255, 241, 175, 0.3)', 'rgba(248, 170, 143, 0.3)'];
 
 var m3qData = [],
     pointsColors = [],
     percentages = [],
     answers = [],
+    answersAVG = [],
     labels = [],
-    exResponses = [1, 1, 3, 3, 3, 3, 1, 1, 1];
+    exResponses = [3,3,3,1,1,1,2,2,2,0,0,0,1,2,3,1,1,3,2,2,3,1,1,2,2,2,1];
 
 var $lgStrong = $(".legend-strong"),
     $lgMed = $(".legend-med"),
@@ -26,24 +34,24 @@ var $lgStrong = $(".legend-strong"),
 
 var svgItems = ["#equipo","#saludbenestar","#liderzago","#foundations","#engagement","#culturacambio","#capitalhumano","#governancia","#eficiencia"]
 
-function colorPath(el,value, color) {
+function colorPath(el,value) {
     if( value == 3 ){
-        $(el).find("#tre, #due, #uno").css('fill', color);
+        $(el).find("#tre, #due, #uno").css('fill', '#8EBE82');
     } else if( value == 2 ){
-        $(el).find("#due, #uno").css('fill', color);
+        $(el).find("#due, #uno").css('fill', '#FFF1B4');
     }  else if( value == 1 ){
-        $(el).find("#uno").css('fill', color);
+        $(el).find("#uno").css('fill', '#F6AF95');
     }
 }
 
 function assignColor(value) {
   var color;
-  if( value < 3 ){
-    color = colors[0];
-  } else if( value >= 3 && value < 6 ){
-    color = colors[1];
-  }  else if( value >= 6 ){
-    color = colors[2];
+  if( value == 3 ){
+    color = 'green';
+  } else if( value == 2 ){
+    color = 'yellow';
+  }  else if( value == 1 ){
+    color = 'red';
   }
   return color;
 }
@@ -71,42 +79,65 @@ function extractValues(array) {
   return array;
 }
 
+function avarageAnswers(array){
+  var sum = 0;
+  for(var i=0; i<array.length; i++){
+    sum += array[i];
+  }
+  var avg = Math.round( sum / array.length );
+  console.log(avg);
+  return avg;
+}
+
 function mainChart(array) {
-    for( i=0, c=0; i<svgItems.length; i+=3, c++){
-        colorPath(svgItems[i], array[i], colors[c]);
-        colorPath(svgItems[i+1], array[i+1], colors[c]);
-        colorPath(svgItems[i+2], array[i+2], colors[c]);
+    // Get avarage percentage values
+    for( i=0, b=0; i<array.length; i+=3, b++){
+        m3qData[b] = Math.round( (array[i]+array[i+1]+array[i+2])/3 );
+    }
+    //console.log(m3qData);
+
+    for( i=0; i<svgItems.length; i++){
+        colorPath(svgItems[i], m3qData[i]);
     }
 }
 
 function singleCharts(array) {
     var wBar, elColor;
 
-    // Single
+    // Transform answers in percentage values
     for( i=0; i<array.length; i++){
         wBar = array[i]*33.33;
-        //elColor = assignColor(i);
+        elColor = assignColor(array[i]);
         //console.log(wBar + " " + elColor);
-        $('.result-value[data-answer="'+(i+1)+'"]').find('.bar').width(wBar+"%");
+        $('.result-value[data-answer="'+(i+1)+'"]').find('.bar').addClass(elColor).width(wBar+"%");
+        //$('.result-value[data-answer="'+(i+1)+'"]').attr("title",wBar);
+        // console.log(labels[i]);
+        // $('.result-value[data-answer="'+(i+1)+'"]').prev('h3').html(labels[i]);
+        // console.log($('.result-value[data-answer="'+(i+1)+'"]').prev('h3').html());
+        //console.log($('.result-value[data-answer="'+(i+1)+'"]').prev('h3'));
     }
 
-    // Promedio
-    for( n=0; n<colors.length; n++){
-        var i = n*3;
-        var average = Math.round( (array[i]+array[i+1]+array[i+2])/3 );
-        wBar = average * 33.33;
-        //elColor = assignColor(n);
-        $('.result-value[data-groupaverage="'+(n+1)+'"]').find('.bar').width(wBar+"%");
+    // Transform answers in percentage values
+    //console.log(m3qData);
+    for( n=0; n<m3qData.length; n++){
+        wBar = m3qData[n]*33.33;
+        elColor = assignColor(m3qData[n]);
+        $('.result-value[data-groupaverage="'+(n+1)+'"]').find('.bar').addClass(elColor).width(wBar+"%");
+        //$('.result-value[data-groupaverage="'+(n+1)+'"]').attr("title",wBar+"%");
 
-        if(average > 2) {
+        if(elColor == "green") {
             $lgStrong.append("<span>" + titles[n] + "</span> ");
             //console.log(titles[n]);
-        } else if(average > 1) {
+        } else if(elColor == "yellow") {
             $lgMed.append("<span>" + titles[n] + "</span> ");
-        } else if(average > 0) {
+        } else if(elColor == "red") {
             $lgLow.append("<span>" + titles[n] + "</span> ");
+        } else  {
+            $lgZero.append("<span>" + titles[n] + "</span> ");
         }
     }
+
+    //$('[data-toggle="tooltip"]').tooltip();
 
 }
 
@@ -122,7 +153,7 @@ function getParameterByName(name, url) {
 
 function getSubmission(email) {
   $.ajax({
-    url: "https://api.typeform.com/forms/D3Yyb5",
+    url: "https://api.typeform.com/forms/fepjH3",
     method: "GET",
     headers: {
         "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'
@@ -147,7 +178,7 @@ function getSubmission(email) {
   });
 
   $.ajax({
-      url: "https://api.typeform.com/forms/D3Yyb5/responses?query=@gmail.com",
+      url: "https://api.typeform.com/forms/fepjH3/responses?query="+email,
       method: "GET",
       headers: {
           "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'
@@ -158,19 +189,22 @@ function getSubmission(email) {
 
           // Parsing JSON for answer values by ID
           for(var n=0; n<questIDs.length; n++) {
-              for(var i=0; i<response.items[0].answers.length; i++) {
-                  //console.log(response.items[0].answers[i].field.id);
-                  if(response.items[0].answers[i].field.id == questIDs[n]){
-                      answers[n] = response.items[0].answers[i].choice.label;
-                  }
+            for(var a=0; a<response.items.length; a++) {
+              for(var i=0; i<response.items[a].answers.length; i++) {
+                //console.log(response.items[0].answers[i].field.id);
+                if(response.items[a].answers[i].field.id == questIDs[n]){
+                    answers[a] = parseInt(response.items[a].answers[i].choice.label.split('.')[0]);
+                }
               }
+            }
+            console.log( answers );
+            answersAVG[n] = avarageAnswers(answers);
           }
 
-          //console.log( answers );
-          answers = extractValues(answers);
+          console.log( answersAVG );
           //console.log( response.items[0].answers );
-          mainChart(answers);
-          singleCharts(answers);
+          mainChart(answersAVG);
+          singleCharts(answersAVG);
       }
   });
 }
@@ -218,14 +252,10 @@ $('#pdf-creatiion').click(function(){
 
   // Email.send({
   //     SecureToken : "da729942-8dc5-4fcc-90a2-d43a824af356",
-  //     To : userEmail,
+  //     To : 'foriaa@gmail.com',
   //     From : "m3q-result@dalmabp.com",
   //     Subject : "This is the subject",
-  //     Body : "And this is the body",
-  //     Attachments : [{
-  //       name : "smtpjs.png",
-  //       path : "https://networkprogramming.files.wordpress.com/2017/11/smtpjs.png"
-  //     }]
+  //     Body : "And this is the body"
   // }).then(
   //   message => alert(message)
   // );

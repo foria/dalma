@@ -1,72 +1,3 @@
-// Get the context of the canvas element we want to select
-// var ctx = document.getElementById("mainchart").getContext("2d");
-
-// function arcDrawLines(){
-//     ctx.beginPath();
-//     ctx.arc(scale.xCenter, scale.yCenter, radius, 0, Math.PI * 2);
-//     ctx.closePath();
-//     ctx.stroke();
-// }
-
-// var dots = new Image();
-// dots.style.background = '#000000';
-// dots.src = 'http://betweentwobrackets.com/content/images/2016/01/dots-1.png';
-// dots.onload = function() {
-//     // create a canvas to hold the pattern
-//   var patternCanvas = document.createElement("canvas");
-//     patternCanvas.width = 300;
-//     patternCanvas.height = 300;
-
-//     // create coloured background rect
-//     var fillContext = patternCanvas.getContext("2d");
-//   fillContext.fillStyle = "#F7464A";
-//   fillContext.fillRect(0,0,300,300);
-
-//     // create pattern overlay rect
-//     var patternContext = patternCanvas.getContext("2d");
-//     var pattern = patternContext.createPattern(dots, 'repeat');
-//   patternContext.fillStyle = pattern;
-//   patternContext.fillRect(0,0,300,300);
-
-//     // create a canvas for the highlight state
-//   var highlightPatternCanvas = document.createElement("canvas");
-//     highlightPatternCanvas.width = 300;
-//     highlightPatternCanvas.height = 300;
-
-//     // create coloured background rect for highlight state
-//     var highlightFillContext = highlightPatternCanvas.getContext("2d");
-//   highlightFillContext.fillStyle = "#FF5A5E";
-//   highlightFillContext.fillRect(0,0,300,300);
-
-//     // create pattern overlay rect for highlight state
-//     var highlightPatternContext = highlightPatternCanvas.getContext("2d");
-//     var highlightPattern = highlightPatternContext.createPattern(dots, 'repeat');
-//   highlightPatternContext.fillStyle = highlightPattern;
-//   highlightPatternContext.fillRect(0,0,300,300);
-
-//     var data = [
-//       {
-//           value: 300,
-//           color: chartContext.createPattern(patternCanvas, 'repeat'),
-//           highlight: chartContext.createPattern(highlightPatternCanvas, 'repeat'),
-//           label: "Red"
-//       },
-//       {
-//           value: 50,
-//           color: "#46BFBD",
-//           highlight: "#5AD3D1",
-//           label: "Green"
-//       },
-//       {
-//           value: 100,
-//           color: "#FDB45C",
-//           highlight: "#FFC870",
-//           label: "Yellow"
-//       }
-//   ];
-
-//     //var patternChart = new Chart(chartContext).Doughnut(data);
-// };
 
 // AOS plugin init
 AOS.init();
@@ -144,7 +75,7 @@ function extractValues(array) {
   for(i=0; i<array.length; i++){
     array[i] = parseInt(array[i].split('.')[0]);
   }
-  console.log(array);
+  //console.log(array);
   return array;
 }
 
@@ -153,7 +84,7 @@ function mainChart(array) {
     for( i=0, b=0; i<array.length; i+=3, b++){
         m3qData[b] = Math.round( (array[i]+array[i+1]+array[i+2])/3 );
     }
-    console.log(m3qData);
+    //console.log(m3qData);
 
     for( i=0; i<svgItems.length; i++){
         colorPath(svgItems[i], m3qData[i]);
@@ -219,7 +150,7 @@ function getSubmission(email) {
     },
     success: function(response) {
         var label;
-        console.log( response );
+        //console.log( response );
 
         // Parsing JSON for answer values by ID
         for(var n=0; n<questIDs.length; n++) {
@@ -256,7 +187,7 @@ function getSubmission(email) {
               }
           }
 
-          console.log( answers );
+          //console.log( answers );
           answers = extractValues(answers);
           //console.log( response.items[0].answers );
           mainChart(answers);

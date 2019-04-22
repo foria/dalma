@@ -1,47 +1,67 @@
-// generated on 2018-09-06 using generator-webapp 3.0.1
-const gulp = require('gulp');
+// generated on 2019-03-20 using generator-webapp 4.0.0-2
+const { src, dest, watch, series, parallel, lastRun } = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
-const browserSync = require('browser-sync').create();
+const browserSync = require('browser-sync');
 const del = require('del');
-const wiredep = require('wiredep').stream;
-const runSequence = require('run-sequence');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
+const { argv } = require('yargs');
 
 const $ = gulpLoadPlugins();
-const reload = browserSync.reload;
+const server = browserSync.create();
 
-let dev = true;
+const port = argv.port || 9000;
 
-gulp.task('styles', () => {
-  return gulp.src('app/styles/*.scss')
+const isProd = process.env.NODE_ENV === 'production';
+const isTest = process.env.NODE_ENV === 'test';
+const isDev = !isProd && !isTest;
+
+function styles() {
+  return src('app/styles/*.scss')
     .pipe($.plumber())
-    .pipe($.if(dev, $.sourcemaps.init()))
+    .pipe($.if(!isProd, $.sourcemaps.init()))
     .pipe($.sass.sync({
       outputStyle: 'expanded',
       precision: 10,
       includePaths: ['.']
     }).on('error', $.sass.logError))
-    .pipe($.autoprefixer({browsers: ['> 1%', 'last 2 versions', 'Firefox ESR']}))
-    .pipe($.if(dev, $.sourcemaps.write()))
-    .pipe(gulp.dest('app/styles'))
-    .pipe(reload({stream: true}));
-});
+    .pipe($.postcss([
+      autoprefixer()
+    ]))
+    .pipe($.if(!isProd, $.sourcemaps.write()))
+    .pipe(dest('app/styles'))
+    .pipe(server.reload({stream: true}));
+};
 
-gulp.task('serve', () => {
-  runSequence(['styles'], () => {
-    browserSync.init({
-      notify: false,
-      port: 9000,
-      server: {
-        baseDir: ['app']
+function startAppServer() {
+  server.init({
+    notify: false,
+    port,
+    server: {
+      baseDir: ['app'],
+      routes: {
+        '/node_modules': 'node_modules'
       }
-    });
-
-    gulp.watch([
-      'app/*.html',
-      'app/scripts/*.js',
-    ]).on('change', reload);
-
-    gulp.watch('app/styles/**/*.scss', ['styles']);
+    }
   });
-});
 
+  watch([
+    'app/*.html',
+    'app/scripts/*.js',
+  ]).on('change', server.reload);
+
+  watch('app/styles/**/*.scss', styles);
+}
+
+let serve;
+if (isDev) {
+  serve = series(styles, startAppServer);
+} else if (isTest) {
+  serve = series(scripts, startTestServer);
+} else if (isProd) {
+  serve = series(build, startDistServer);
+}
+
+exports.serve = serve;
+//exports.build = build;
+exports.default = serve;

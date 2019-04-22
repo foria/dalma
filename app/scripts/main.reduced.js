@@ -94,7 +94,8 @@ function singleCharts(array) {
     for( n=0; n<colors.length; n++){
         var i = n*3;
         var average = Math.round( (array[i]+array[i+1]+array[i+2])/3 );
-        wBar = average * 33.33;
+        //wBar = average * 33.33;
+        wBar = (array[i]+array[i+1]+array[i+2]) * 11.11;
         //elColor = assignColor(n);
         $('.result-value[data-groupaverage="'+(n+1)+'"]').find('.bar').width(wBar+"%");
 
@@ -147,7 +148,7 @@ function getSubmission(email) {
   });
 
   $.ajax({
-      url: "https://api.typeform.com/forms/D3Yyb5/responses?query=@gmail.com",
+      url: "https://api.typeform.com/forms/D3Yyb5/responses?query="+email,
       method: "GET",
       headers: {
           "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'
@@ -184,49 +185,79 @@ if(userEmail){
 // singleCharts(exResponses);
 
 
-// $(document).ready(function(){
-//     'use strict';
-
-
-// })
+// PDF variables
+var element = document.getElementById('m3q');
+var opt = {
+  margin:       [0,0.5,0,0.5],
+  pagebreak:    { mode: ['legacy'] },
+  filename:     'm3q_report-'+userEmail+'.pdf',
+  image:        { type: 'jpeg', quality: 0.98 },
+  html2canvas:  { scale: 1 },
+  jsPDF:        { unit: 'in', orientation: 'landscape', compressPDF: true }
+};
 
 function createPDF(){
   $('body').addClass('printpdf');
   $('#chart').width(orChartSize);
   $('#chart').height(orChartSize);
 
-  var element = document.getElementById('m3q');
-  var opt = {
-    margin:       [0,0.5,0,0.5],
-    pagebreak:    { mode: ['legacy'] },
-    filename:     'm3q_report-'+userEmail+'.pdf',
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 1 },
-    jsPDF:        { unit: 'in', orientation: 'landscape', compressPDF: true }
-  };
-
-  // New Promise-based usage:
   html2pdf().set(opt).from(element).save().then(function(pdf){
     resizeChart();
     $('body').removeClass('printpdf');
-  });;
+  });
+
 }
 
 $('#pdf-creatiion').click(function(){
   //console.log('test');
   createPDF();
+})
 
-  // Email.send({
-  //     SecureToken : "da729942-8dc5-4fcc-90a2-d43a824af356",
-  //     To : userEmail,
-  //     From : "m3q-result@dalmabp.com",
-  //     Subject : "This is the subject",
-  //     Body : "And this is the body",
-  //     Attachments : [{
-  //       name : "smtpjs.png",
-  //       path : "https://networkprogramming.files.wordpress.com/2017/11/smtpjs.png"
-  //     }]
-  // }).then(
-  //   message => alert(message)
-  // );
+function sendPDF(){
+  $('body').addClass('printpdf');
+  $('#chart').width(orChartSize);
+  $('#chart').height(orChartSize);
+
+  html2pdf().set(opt).from(element).toPdf().output('datauri').then(function (pdfAsString) {
+    // The PDF has been converted to a Data URI string and passed to this function.
+    // Use pdfAsString however you like (send as email, etc)! For instance:
+    console.log(pdfAsString);
+
+    var $button = $('#pdf-mail');
+    $.ajax({
+        type: 'POST',
+        url: "sendemail.php",
+        data: {
+            //Name: $("#name").val(),
+            Email: userEmail,
+            //Message: $("#message").val(),
+            Attachment: pdfAsString
+        }
+    }).done(function(data) {
+        $button.html('Email Sent!').delay(3210);
+        resizeChart();
+        $('body').removeClass('printpdf');
+    });
+
+    // Email.send({
+    //     SecureToken : "da729942-8dc5-4fcc-90a2-d43a824af356",
+    //     To : userEmail,
+    //     From : "m3q-result@dalmabp.com",
+    //     Subject : "This is the subject",
+    //     Body : "This is the subject",
+    //     Attachments : [{
+    //       name : 'm3q_report-'+userEmail+'.pdf',
+    //       path : pdfAsString
+    //     }]
+    // }).then(
+    //   message => alert(message)
+    // );
+
+  });
+
+}
+
+$('#pdf-mail').click(function(){
+  //console.log('test');
+  sendPDF();
 })

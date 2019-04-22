@@ -261,11 +261,11 @@ body.printpdf #chart {
     margin-top: 75px;
     margin-bottom: 7em;
 
-    svg {
+    > svg {
         margin-right: -200px;
 
         body.lite & {
-            height: 100px;
+            height: 280px;
             width: auto;
             margin-right: -90px;
         }
@@ -315,6 +315,11 @@ body.printpdf #chart {
             background-color: $lowColor;
         }
 
+        svg {
+            height: 40px;
+            display: block;
+        }
+
         @include media-breakpoint-down(sm) {
             padding: 5px 0  0 100px;
 
@@ -337,6 +342,18 @@ body.printpdf #chart {
         &:after {
             content: ",";
         }
+    }
+}
+
+.legend-reduced {
+
+    figcaption {
+        margin-top: 40px;
+    }
+
+    p {
+        height: auto;
+        padding:0 0 19px 110px;
     }
 }
 
@@ -512,7 +529,7 @@ footer {
     text-align: center;
 }
 
-#pdf-creatiion {
+.button-pdf {
     display: inline-block;
     background-color: #5491CD;
     //width: 300px;
@@ -521,8 +538,8 @@ footer {
     line-height: 4em;
     font-size: 1.5em;
     text-align: center;
-    margin: 0 auto;
-    color: white;
+    margin: 15px;
+    color: white !important;
     border-radius: 12px;
     cursor: pointer;
 

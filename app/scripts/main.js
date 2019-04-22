@@ -6,9 +6,9 @@ var titles = [
   'Equipo',
   'Salud y Bienestar',
   'Liderazgo',
-  'Fundations',
+  'Foundations',
   'Engagement',
-  'Culture del Cambio',
+  'Cultura del Cambio',
   'Capital humano',
   'Governancia',
   'Eficiencia y agilidad'
@@ -20,6 +20,7 @@ var questIDs = ["GjZDxIWoitHN", "vHMsURMZG6OH", "jYrB63LOG14O", "Br4ZYLekorFP", 
 //var colors = [chartContext.createPattern(patternCanvas, 'repeat'), 'rgba(255, 241, 175, 0.3)', 'rgba(248, 170, 143, 0.3)'];
 
 var m3qData = [],
+    m3qData9 = [],
     pointsColors = [],
     percentages = [],
     answers = [],
@@ -83,6 +84,8 @@ function mainChart(array) {
     // Get avarage percentage values
     for( i=0, b=0; i<array.length; i+=3, b++){
         m3qData[b] = Math.round( (array[i]+array[i+1]+array[i+2])/3 );
+        m3qData9[b] = array[i]+array[i+1]+array[i+2];
+        //console.log(m3qData[b] + " " + m3qData9[b]);
     }
     //console.log(m3qData);
 
@@ -95,7 +98,7 @@ function singleCharts(array) {
     var wBar, elColor;
 
     // Transform answers in percentage values
-    for( i=0; i<array.length; i++){
+    for( i=0; i<array.length; i++) {
         wBar = array[i]*33.33;
         elColor = assignColor(array[i]);
         //console.log(wBar + " " + elColor);
@@ -109,8 +112,8 @@ function singleCharts(array) {
 
     // Transform answers in percentage values
     //console.log(m3qData);
-    for( n=0; n<m3qData.length; n++){
-        wBar = m3qData[n]*33.33;
+    for( n=0; n<m3qData.length; n++) {
+        wBar = m3qData9[n]*11.11;
         elColor = assignColor(m3qData[n]);
         $('.result-value[data-groupaverage="'+(n+1)+'"]').find('.bar').addClass(elColor).width(wBar+"%");
         //$('.result-value[data-groupaverage="'+(n+1)+'"]').attr("title",wBar+"%");
@@ -205,26 +208,21 @@ if(userEmail){
 // singleCharts(exResponses);
 
 
-// $(document).ready(function(){
-//     'use strict';
-
-
-// })
+// PDF variables
+var element = document.getElementById('m3q');
+var opt = {
+  margin:       [0,0.5,0,0.5],
+  pagebreak:    { mode: ['legacy'] },
+  filename:     'm3q_report-'+userEmail+'.pdf',
+  image:        { type: 'jpeg', quality: 0.98 },
+  html2canvas:  { scale: 1 },
+  jsPDF:        { unit: 'in', orientation: 'landscape', compressPDF: true }
+};
 
 function createPDF(){
   $('body').addClass('printpdf');
   $('#chart').width(orChartSize);
   $('#chart').height(orChartSize);
-
-  var element = document.getElementById('m3q');
-  var opt = {
-    margin:       [0,0.5,0,0.5],
-    pagebreak:    { mode: ['legacy'] },
-    filename:     'm3q_report-'+userEmail+'.pdf',
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 1 },
-    jsPDF:        { unit: 'in', orientation: 'landscape', compressPDF: true }
-  };
 
   // New Promise-based usage:
   html2pdf().set(opt).from(element).save().then(function(pdf){
@@ -236,14 +234,53 @@ function createPDF(){
 $('#pdf-creatiion').click(function(){
   //console.log('test');
   createPDF();
+})
 
-  // Email.send({
-  //     SecureToken : "da729942-8dc5-4fcc-90a2-d43a824af356",
-  //     To : 'foriaa@gmail.com',
-  //     From : "m3q-result@dalmabp.com",
-  //     Subject : "This is the subject",
-  //     Body : "And this is the body"
-  // }).then(
-  //   message => alert(message)
-  // );
+function sendPDF(){
+  $('body').addClass('printpdf');
+  $('#chart').width(orChartSize);
+  $('#chart').height(orChartSize);
+
+  html2pdf().set(opt).from(element).toPdf().output('datauri').then(function (pdfAsString) {
+    // The PDF has been converted to a Data URI string and passed to this function.
+    // Use pdfAsString however you like (send as email, etc)! For instance:
+    console.log(pdfAsString);
+
+    var $button = $('#pdf-mail');
+    $.ajax({
+        type: 'POST',
+        url: "sendemail.php",
+        data: {
+            //Name: $("#name").val(),
+            Email: userEmail,
+            //Message: $("#message").val(),
+            Attachment: pdfAsString
+        }
+    }).done(function(data) {
+        $button.html('Email Sent!').delay(3210);
+        resizeChart();
+        $('body').removeClass('printpdf');
+    });
+
+    // Email.send({
+    //     SecureToken : "da729942-8dc5-4fcc-90a2-d43a824af356",
+    //     To : userEmail,
+    //     From : "m3q-result@dalmabp.com",
+    //     Subject : "This is the subject",
+    //     Body : "This is the subject",
+    //     Attachments : [{
+    //       name : 'm3q_report-'+userEmail+'.pdf',
+    //       path : pdfAsString
+    //     }]
+    // }).then(
+    //   message => alert(message)
+    // );
+
+  });
+
+}
+
+$('#pdf-mail').click(function(){
+  //console.log('test');
+  sendPDF();
 })

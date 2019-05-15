@@ -14,7 +14,7 @@ var titles = [
   'Eficiencia y agilidad'
 ];
 
-var questIDs = ["GjZDxIWoitHN", "vHMsURMZG6OH", "jYrB63LOG14O", "Br4ZYLekorFP", "Xhv6eCVDoz72", "wMJmJyPzmQYq", "Q9Opyui1HYXS", "BiNDYgL6pijY", "RQcikfxqnZAM", "hc3VAxHesd6e", "QbWdWlaB6WiB", "oAFijsOTsBSB", "qh2xtO25fFcY", "Vsnk5SUFoes6", "CTq9eh0oGTUS", "A6ng25Gj39Bb", "kfQpbN5VbBsy", "aeWEGlBHNDMS", "shitJPiYNY5u", "H4r9pNIb6nEw", "KhhCWMwoK6jG", "ET5HUcq3sMZL", "n9PZvY4rVe99", "rCIV2QLNt7zc", "hDzFIlUxCBi9", "hTcrVpRYPUfk", "aqmD7IzJfLQf"];
+var questIDs = ["WLX6UTt3kcmU", "oyYAdOgZAb3K", "YMI6A6ZXljUj", "rZdVLRDv601B", "ta2Msj2P2OfF", "xiJ8I59TpcIZ", "IKPUELXE8PMS", "dt40dfukFZNg", "pXwpeAGP7r3k", "PvIK4pqHAOQQ", "u8jbevhd8IB4", "Uq2XylNxj0Yj", "QxRqR2SOEvkC", "I33P5lZduFFJ", "bfyRte0qtxPc", "cKETsjIM6ds0", "d1OluDtv8b0x", "YlxjHPeku2Pt", "p9oijeCiiKU8", "yem9Cvf2J1yR", "FwoexV9tyqYC", "y65tGesDc5fG", "EdxnHtv5Noxd", "bL7TE96fYbkQ", "iksr6AhDUpWY", "NUugWSsGTQzl", "WppYpUwGty99"];
 
 //var colors = ['rgba(132,191,136, 0.3)', 'rgba(255, 241, 175, 0.3)', 'rgba(248, 170, 143, 0.3)'];
 //var colors = [chartContext.createPattern(patternCanvas, 'repeat'), 'rgba(255, 241, 175, 0.3)', 'rgba(248, 170, 143, 0.3)'];
@@ -24,8 +24,8 @@ var m3qData = [],
     pointsColors = [],
     percentages = [],
     answers = [],
-    answersAVG = [],
     labels = [],
+    exData = [100,30,80,50,10,80,60,40,20],
     exResponses = [3,3,3,1,1,1,2,2,2,0,0,0,1,2,3,1,1,3,2,2,3,1,1,2,2,2,1];
 
 var $lgStrong = $(".legend-strong"),
@@ -80,22 +80,12 @@ function extractValues(array) {
   return array;
 }
 
-function avarageAnswers(array){
-  var sum = 0;
-  for(var i=0; i<array.length; i++){
-    sum += array[i];
-  }
-  var avg = Math.round( sum / array.length );
-  //console.log(avg);
-  return avg;
-}
-
 function mainChart(array) {
     // Get avarage percentage values
     for( i=0, b=0; i<array.length; i+=3, b++){
         m3qData[b] = Math.round( (array[i]+array[i+1]+array[i+2])/3 );
         m3qData9[b] = array[i]+array[i+1]+array[i+2];
-        //m3qData[b] = array[i]+array[i+1]+array[i+2];
+        //console.log(m3qData[b] + " " + m3qData9[b]);
     }
     //console.log(m3qData);
 
@@ -156,7 +146,7 @@ function getParameterByName(name, url) {
 
 function getSubmission(email) {
   $.ajax({
-    url: "https://api.typeform.com/forms/fepjH3",
+    url: "https://api.typeform.com/forms/BecgvF",
     method: "GET",
     headers: {
         "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'
@@ -181,7 +171,7 @@ function getSubmission(email) {
   });
 
   $.ajax({
-      url: "https://api.typeform.com/forms/fepjH3/responses?query="+email,
+      url: "https://api.typeform.com/forms/BecgvF/responses?query="+email,
       method: "GET",
       headers: {
           "Authorization" : "Bearer " + '7ivycDSoFRWyXAkecThrsuXLKDqYtjBt6FpbrqCtwXmB'
@@ -192,22 +182,19 @@ function getSubmission(email) {
 
           // Parsing JSON for answer values by ID
           for(var n=0; n<questIDs.length; n++) {
-            for(var a=0; a<response.items.length; a++) {
-              for(var i=0; i<response.items[a].answers.length; i++) {
-                //console.log(response.items[0].answers[i].field.id);
-                if(response.items[a].answers[i].field.id == questIDs[n]){
-                    answers[a] = parseInt(response.items[a].answers[i].choice.label.split('.')[0]);
-                }
+              for(var i=0; i<response.items[0].answers.length; i++) {
+                  //console.log(response.items[0].answers[i].field.id);
+                  if(response.items[0].answers[i].field.id == questIDs[n]){
+                      answers[n] = response.items[0].answers[i].choice.label;
+                  }
               }
-            }
-            console.log( answers );
-            answersAVG[n] = avarageAnswers(answers);
           }
 
-          console.log( answersAVG );
+          //console.log( answers );
+          answers = extractValues(answers);
           //console.log( response.items[0].answers );
-          mainChart(answersAVG);
-          singleCharts(answersAVG);
+          mainChart(answers);
+          singleCharts(answers);
       }
   });
 }

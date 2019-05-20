@@ -257,7 +257,7 @@ function sendPDF(){
   html2pdf().set(opt).from(element).toPdf().output('datauri').then(function (pdfAsString) {
     // The PDF has been converted to a Data URI string and passed to this function.
     // Use pdfAsString however you like (send as email, etc)! For instance:
-    console.log(pdfAsString);
+    //console.log(pdfAsString);
 
     var $button = $('#pdf-mail');
     $.ajax({
